@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>tawïza</title>
+  <style>
+    body {
+      background-color: black;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    
+    .sidebar {
+      background-color: gray;
+      width: 200px;
+      height: calc(100vh - 50px);
+      margin-top: 50px;
+      position: fixed;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      color: white;
+    }
+    
+    .main {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .top-bar {
+      background-color: #333333;
+      height: 50px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    
+    .top-bar h1 {
+      font-size: 28px;
+      color: white;
+      margin: 0;
+      padding: 10px;
+      margin-left: 20px;
+    }
+    
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+    
+    .content h1 {
+      margin-top: 40px;
+    }
+  </style>
+  <script>
+    function getCurrentIjedaDate() {
+      const currentUTC = new Date();
+      const offset = -4; // UTC-4 timezone offset
+      
+      const localDate = new Date(currentUTC.getTime() + offset * 60 * 60 * 1000);
+      const localDay = localDate.getUTCDate();
+      const localMonth = localDate.getUTCMonth() + 1; // Months are zero-based
+      
+      const months = ["seðïsa", "ïsto", "šomi", "þaša", "koža"];
+      const days = ["ukeð", "tersï", "naki", "sosaš", "zeža", "kasað", "mešto", "ïntaja", "ðesoðo", "sasað", "þarenïð", "retað"];
+      
+      const daysPerMonth = 72; // 72 days per month, excluding woðos
+      const woðosDay = 73; // Day of woðos
+      
+      const daysSinceStart = Math.floor((localDate - new Date(2023, 2, 23)) / (24 * 60 * 60 * 1000)); // Days since start of Ijeða Roðai system
+      
+      const monthIndex = Math.floor(daysSinceStart / daysPerMonth) % 5; // Month index calculation
+      const month = months[monthIndex]; // Month name
+      
+      const dayIndex = (daysSinceStart % daysPerMonth) + 1; // Day index calculation
+      const isWoðos = dayIndex === woðosDay; // Check if it's woðos day
+      const day = isWoðos ? "woðos" : days[(dayIndex - 1) % 12]; // Day name
+      
+      return `${day}, ${dayIndex} ${month}`;
+    }
+    
+    function getCurrentIjedaTime() {
+      const currentUTC = new Date();
+      const offset = -4; // UTC-4 timezone offset
+
+      const localDate = new Date(currentUTC.getTime() + offset * 60 * 60 * 1000);
+      const localSeconds = localDate.getUTCHours() * 3600 + localDate.getUTCMinutes() * 60 + localDate.getUTCSeconds();
+
+      const žakemo = Math.floor(localSeconds / 1.728) % 50;
+      const helaka = Math.floor(localSeconds / 86.4) % 1000;
+      const kemoka = Math.floor(localSeconds / 8640) % 10;
+
+      const formattedŽakemo = žakemo.toString().padStart(2, '0');
+      const formattedHelaka = helaka.toString().padStart(2, '0');
+      const formattedKemoka = kemoka.toString().padStart(2, '0');
+
+      return `${formattedKemoka}:${formattedHelaka}:${formattedŽakemo}`;
+    }
+
+    function redirectToClock() {
+      window.location.href = 'clock_page.html';
+    }
+
+    function updateDateTime() {
+      const ijedaDate = getCurrentIjedaDate();
+      const ijedaTime = getCurrentIjedaTime();
+      
+      document.getElementById('ijeda-date').textContent = ijedaDate;
+      document.getElementById('ijeda-time').textContent = ijedaTime;
+      document.getElementById('ijeda-time').onclick = redirectToClock; // Set onclick event to redirect to the clock page
+    }
+    
+    setInterval(updateDateTime, 432);
+  </script>
+</head>
+<body>
+  <div class="sidebar">
+    <div>
+      <p id="ijeda-date"></p>
+      <p id="ijeda-time"></p>
+    </div>
+    <div>
+      <!-- Add any additional sidebar content here -->
+    </div>
+    <div>
+      <button onclick="window.location.href = 'account-settings.html'">oran</button>
+    </div>
+  </div>
+  
+  <div class="main">
+    <div class="top-bar">
+      <h1>tawïza wïrokaza</h1>
+    </div>
+    
+    <div class="content">
+      <!-- Your content goes here -->
+      <h1 style="margin-top: 60px;">uzaja, oran:</h1>
+      <p>testa testa testa testa</p>
+    </div>
+  </div>
+</body>
+</html>
